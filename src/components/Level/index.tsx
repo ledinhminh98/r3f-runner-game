@@ -1,4 +1,4 @@
-import { useGLTF } from "@react-three/drei";
+import { Float, Text, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import React, { useMemo, useRef, useState } from "react";
@@ -11,14 +11,44 @@ interface Props {
 
 THREE.ColorManagement.legacyMode = false;
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-const floor1Material = new THREE.MeshStandardMaterial({ color: "limegreen" });
-const floor2Material = new THREE.MeshStandardMaterial({ color: "greenyellow" });
-const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "orangered" });
-const wallMaterial = new THREE.MeshStandardMaterial({ color: "slategrey" });
+const floor1Material = new THREE.MeshStandardMaterial({
+  color: "#111111",
+  metalness: 0,
+  roughness: 0,
+});
+const floor2Material = new THREE.MeshStandardMaterial({
+  color: "#222222",
+  metalness: 0,
+  roughness: 0,
+});
+const obstacleMaterial = new THREE.MeshStandardMaterial({
+  color: "#ff0000",
+  metalness: 0,
+  roughness: 1,
+});
+const wallMaterial = new THREE.MeshStandardMaterial({
+  color: "#887777",
+  metalness: 0,
+  roughness: 0,
+});
 
 export const BlockStart = ({ position = [0, 0, 0] }) => {
   return (
     <group position={position}>
+      <Float floatIntensity={0.25} rotationIntensity={0.25}>
+        <Text
+          font="/bebas-neue-v9-latin-regular.woff"
+          scale={4}
+          maxWidth={0.25}
+          lineHeight={0.75}
+          textAlign="right"
+          position={[0.75, 0.65, 0]}
+          rotation-y={-0.25}
+        >
+          Marble Race
+          <meshBasicMaterial toneMapped={false} />
+        </Text>
+      </Float>
       <mesh
         geometry={boxGeometry}
         material={floor1Material}
@@ -39,6 +69,14 @@ export const BlockEnd = ({ position = [0, 0, 0] }) => {
 
   return (
     <group position={position}>
+      <Text
+        font="/bebas-neue-v9-latin-regular.woff"
+        scale={8}
+        position={[0, 2.25, 2]}
+      >
+        FINISH
+        <meshBasicMaterial toneMapped={false} />
+      </Text>
       <mesh
         geometry={boxGeometry}
         material={floor1Material}
@@ -70,7 +108,7 @@ export const BlockSpinner = ({ position = [0, 0, 0] }) => {
 
     const rotation = new THREE.Quaternion();
     rotation.setFromEuler(new THREE.Euler(0, time * speed, 0));
-    obstacle?.current?.setNextKinematicRotation(rotation);
+    obstacle.current.setNextKinematicRotation(rotation);
   });
 
   return (
@@ -213,6 +251,7 @@ const Bounds = ({ length = 1 }) => {
           receiveShadow
         />
         <CuboidCollider
+          type="fixed"
           args={[2, 0.1, 2 * length]}
           position={[0, -0.1, -(length * 2) + 2]}
           restitution={0.2}
@@ -226,6 +265,7 @@ const Bounds = ({ length = 1 }) => {
 const Level: React.FC<Props> = ({
   count = 5,
   types = [BlockSpinner, BlockAxe, BlockLimbo],
+  seed = 0,
 }) => {
   const blocks = useMemo(() => {
     const blocks = [];
@@ -236,7 +276,7 @@ const Level: React.FC<Props> = ({
     }
 
     return blocks;
-  }, [count, types]);
+  }, [count, types, seed]);
 
   return (
     <>

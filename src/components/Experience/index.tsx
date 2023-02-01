@@ -1,21 +1,26 @@
+import Effects from "@Components/Effects";
 import Level from "@Components/Level";
 import Light from "@Components/Light";
 import Player from "@Components/Player";
-import { OrbitControls } from "@react-three/drei";
+import useGame from "@Hooks/useGame";
 import { Physics } from "@react-three/rapier";
 import React from "react";
 
 interface Props {}
 
 const Experience: React.FC<Props> = () => {
+  const blocksCount = useGame((state) => state.blocksCount);
+  const blocksSeed = useGame((state) => state.blocksSeed);
+
   return (
     <>
-      <OrbitControls makeDefault />
+      <color args={["#252731"]} attach="background" />
       <Physics>
         <Light />
-        <Level />
+        <Level count={blocksCount} seed={blocksSeed} />
         <Player />
       </Physics>
+      <Effects />
     </>
   );
 };
