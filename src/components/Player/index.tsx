@@ -8,7 +8,7 @@ import * as THREE from "three";
 interface Props {}
 
 const Player: React.FC<Props> = () => {
-  const body = useRef();
+  const body = useRef<RigidBody>(null);
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { rapier, world } = useRapier();
   const rapierWorld = world.raw();
@@ -28,7 +28,7 @@ const Player: React.FC<Props> = () => {
     const ray = new rapier.Ray(origin, direction);
     const hit = rapierWorld.castRay(ray, 10, true);
 
-    if (hit.toi < 0.15) {
+    if (hit && hit.toi < 0.15) {
       body.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
     }
   };
@@ -63,6 +63,7 @@ const Player: React.FC<Props> = () => {
       unsubscribeJump();
       unsubscribeAny();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useFrame((state, delta) => {

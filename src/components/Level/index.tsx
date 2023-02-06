@@ -37,15 +37,15 @@ export const BlockStart = ({ position = [0, 0, 0] }) => {
     <group position={position}>
       <Float floatIntensity={0.25} rotationIntensity={0.25}>
         <Text
-          font="/bebas-neue-v9-latin-regular.woff"
-          scale={4}
+          font="/fonts/josefin-sans-thin-regular.woff"
+          scale={3}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign="right"
           position={[0.75, 0.65, 0]}
           rotation-y={-0.25}
         >
-          Marble Race
+          The Runner
           <meshBasicMaterial toneMapped={false} />
         </Text>
       </Float>
@@ -70,7 +70,7 @@ export const BlockEnd = ({ position = [0, 0, 0] }) => {
   return (
     <group position={position}>
       <Text
-        font="/bebas-neue-v9-latin-regular.woff"
+        font="/fonts/josefin-sans-thin-regular.woff"
         scale={8}
         position={[0, 2.25, 2]}
       >
@@ -265,7 +265,6 @@ const Bounds = ({ length = 1 }) => {
 const Level: React.FC<Props> = ({
   count = 5,
   types = [BlockSpinner, BlockAxe, BlockLimbo],
-  seed = 0,
 }) => {
   const blocks = useMemo(() => {
     const blocks = [];
@@ -276,7 +275,7 @@ const Level: React.FC<Props> = ({
     }
 
     return blocks;
-  }, [count, types, seed]);
+  }, [count, types]);
 
   return (
     <>

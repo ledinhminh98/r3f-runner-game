@@ -16,7 +16,7 @@ export default function Home() {
       ]}
     >
       <Head>
-        <title>Runner Game</title>
+        <title>The Runner</title>
         <meta
           name="description"
           content="Create runner game with React Three Fiber"

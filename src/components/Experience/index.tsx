@@ -10,14 +10,13 @@ interface Props {}
 
 const Experience: React.FC<Props> = () => {
   const blocksCount = useGame((state) => state.blocksCount);
-  const blocksSeed = useGame((state) => state.blocksSeed);
 
   return (
     <>
       <color args={["#252731"]} attach="background" />
       <Physics>
         <Light />
-        <Level count={blocksCount} seed={blocksSeed} />
+        <Level count={blocksCount} />
         <Player />
       </Physics>
       <Effects />
