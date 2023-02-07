@@ -8,7 +8,7 @@ import * as THREE from "three";
 interface Props {}
 
 const Player: React.FC<Props> = () => {
-  const body = useRef<RigidBody>(null);
+  const body = useRef<any>(null);
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const { rapier, world } = useRapier();
   const rapierWorld = world.raw();

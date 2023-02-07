@@ -32,7 +32,7 @@ const wallMaterial = new THREE.MeshStandardMaterial({
   roughness: 0,
 });
 
-export const BlockStart = ({ position = [0, 0, 0] }) => {
+export const BlockStart = ({ position = new THREE.Vector3(0, 0, 0) }) => {
   return (
     <group position={position}>
       <Float floatIntensity={0.25} rotationIntensity={0.25}>
@@ -60,7 +60,7 @@ export const BlockStart = ({ position = [0, 0, 0] }) => {
   );
 };
 
-export const BlockEnd = ({ position = [0, 0, 0] }) => {
+export const BlockEnd = ({ position = new THREE.Vector3(0, 0, 0) }) => {
   const hamburger = useGLTF("./models/hamburger.glb");
 
   hamburger.scene.children.forEach((mesh) => {
@@ -97,8 +97,8 @@ export const BlockEnd = ({ position = [0, 0, 0] }) => {
   );
 };
 
-export const BlockSpinner = ({ position = [0, 0, 0] }) => {
-  const obstacle = useRef();
+export const BlockSpinner = ({ position = new THREE.Vector3(0, 0, 0) }) => {
+  const obstacle = useRef<any>(null);
   const [speed] = useState(
     () => (Math.random() + 0.2) * (Math.random() < 0.5 ? -1 : 1)
   );
@@ -139,8 +139,8 @@ export const BlockSpinner = ({ position = [0, 0, 0] }) => {
   );
 };
 
-export const BlockLimbo = ({ position = [0, 0, 0] }) => {
-  const obstacle = useRef();
+export const BlockLimbo = ({ position = new THREE.Vector3(0, 0, 0) }) => {
+  const obstacle = useRef<any>(null);
   const [timeOffset] = useState(() => Math.random() * Math.PI * 2);
 
   useFrame((state) => {
@@ -148,9 +148,9 @@ export const BlockLimbo = ({ position = [0, 0, 0] }) => {
 
     const y = Math.sin(time + timeOffset) + 1.15;
     obstacle.current.setNextKinematicTranslation({
-      x: position[0],
-      y: position[1] + y,
-      z: position[2],
+      x: position.x,
+      y: position.y + y,
+      z: position.z,
     });
   });
 
@@ -182,8 +182,8 @@ export const BlockLimbo = ({ position = [0, 0, 0] }) => {
   );
 };
 
-export const BlockAxe = ({ position = [0, 0, 0] }) => {
-  const obstacle = useRef();
+export const BlockAxe = ({ position = new THREE.Vector3(0, 0, 0) }) => {
+  const obstacle = useRef<any>(null);
   const [timeOffset] = useState(() => Math.random() * Math.PI * 2);
 
   useFrame((state) => {
@@ -191,9 +191,9 @@ export const BlockAxe = ({ position = [0, 0, 0] }) => {
 
     const x = Math.sin(time + timeOffset) * 1.25;
     obstacle.current.setNextKinematicTranslation({
-      x: position[0] + x,
-      y: position[1] + 0.75,
-      z: position[2],
+      x: position.x + x,
+      y: position.y + 0.75,
+      z: position.z,
     });
   });
 
@@ -251,7 +251,6 @@ const Bounds = ({ length = 1 }) => {
           receiveShadow
         />
         <CuboidCollider
-          type="fixed"
           args={[2, 0.1, 2 * length]}
           position={[0, -0.1, -(length * 2) + 2]}
           restitution={0.2}
@@ -279,11 +278,11 @@ const Level: React.FC<Props> = ({
 
   return (
     <>
-      <BlockStart position={[0, 0, 0]} />
+      <BlockStart position={new THREE.Vector3(0, 0, 0)} />
       {blocks.map((Block, index) => (
-        <Block key={index} position={[0, 0, -(index + 1) * 4]} />
+        <Block key={index} position={new THREE.Vector3(0, 0, -(index + 1) * 4)} />
       ))}
-      <BlockEnd position={[0, 0, -(count + 1) * 4]} />
+      <BlockEnd position={new THREE.Vector3(0, 0, -(count + 1) * 4)} />
       <Bounds length={count + 2} />
     </>
   );
