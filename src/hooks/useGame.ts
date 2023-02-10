@@ -1,54 +1,56 @@
-import create from 'zustand'
-import { subscribeWithSelector } from 'zustand/middleware'
+import create from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
 
-export default create(subscribeWithSelector((set) =>
-{
+export default create(
+  subscribeWithSelector((set) => {
+    type GameState = {
+      blocksCount: number;
+      blocksSeed: number;
+      startTime: number;
+      endTime: number;
+      phase: "ready" | "playing" | "ended";
+    };
+
+    const initialState: GameState = {
+      blocksCount: 10,
+      blocksSeed: 0,
+      startTime: 0,
+      endTime: 0,
+      phase: "ready",
+    };
+
     return {
-        blocksCount: 10,
-        blocksSeed: 0,
-        
-        /**
-         * Time
-         */
-        startTime: 0,
-        endTime: 0,
+      ...initialState,
 
-        /**
-         * Phases
-         */
-        phase: 'ready',
+      start: () => {
+        set((state: GameState) => {
+          if (state.phase === "ready") {
+            return { phase: "playing", startTime: Date.now() };
+          }
 
-        start: () =>
-        {
-            set((state) =>
-            {
-                if(state.phase === 'ready')
-                    return { phase: 'playing', startTime: Date.now() }
+          return {};
+        });
+      },
 
-                return {}
-            })
-        },
+      restart: () => {
+        set((state: GameState) => {
+          if (state.phase === "playing" || state.phase === "ended") {
+            return { phase: "ready", blocksSeed: Math.random() };
+          }
 
-        restart: () =>
-        {
-            set((state) =>
-            {
-                if(state.phase === 'playing' || state.phase === 'ended')
-                    return { phase: 'ready', blocksSeed: Math.random() }
+          return {};
+        });
+      },
 
-                return {}
-            })
-        },
+      end: () => {
+        set((state: GameState) => {
+          if (state.phase === "playing") {
+            return { phase: "ended", endTime: Date.now() };
+          }
 
-        end: () =>
-        {
-            set((state) =>
-            {
-                if(state.phase === 'playing')
-                    return { phase: 'ended', endTime: Date.now() }
-
-                return {}
-            })
-        }
-    }
-}))
+          return {};
+        });
+      },
+    };
+  })
+);

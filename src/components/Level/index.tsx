@@ -9,6 +9,10 @@ interface Props {
   types?: [];
 }
 
+function getRandomHexColor() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
 THREE.ColorManagement.legacyMode = false;
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const floor1Material = new THREE.MeshStandardMaterial({
@@ -22,7 +26,7 @@ const floor2Material = new THREE.MeshStandardMaterial({
   roughness: 0,
 });
 const obstacleMaterial = new THREE.MeshStandardMaterial({
-  color: "#ff0000",
+  color: getRandomHexColor(),
   metalness: 0,
   roughness: 1,
 });
@@ -35,15 +39,17 @@ const wallMaterial = new THREE.MeshStandardMaterial({
 export const BlockStart = ({ position = new THREE.Vector3(0, 0, 0) }) => {
   return (
     <group position={position}>
-      <Float floatIntensity={0.25} rotationIntensity={0.25}>
+      <Float floatIntensity={0.25} rotationIntensity={0.25} getObjectsByProperty={(property: string) => []}>
         <Text
           font="/fonts/josefin-sans-thin-regular.woff"
-          scale={3}
+          scale={0.35}
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign="right"
           position={[0.75, 0.65, 0]}
           rotation-y={-0.25}
+          getObjectsByProperty={(property: string) => []}
+          getVertexPosition={() => {}}
         >
           The Runner
           <meshBasicMaterial toneMapped={false} />
@@ -71,8 +77,10 @@ export const BlockEnd = ({ position = new THREE.Vector3(0, 0, 0) }) => {
     <group position={position}>
       <Text
         font="/fonts/josefin-sans-thin-regular.woff"
-        scale={8}
-        position={[0, 2.25, 2]}
+        scale={1}
+        position={[0, 2, 1]}
+        getObjectsByProperty={(property: string) => []}
+        getVertexPosition={() => [0, 2.25, 2]}
       >
         FINISH
         <meshBasicMaterial toneMapped={false} />
