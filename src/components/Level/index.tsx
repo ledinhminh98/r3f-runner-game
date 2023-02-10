@@ -9,27 +9,28 @@ interface Props {
   types?: [];
 }
 
-function getRandomHexColor() {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
-
 THREE.ColorManagement.legacyMode = false;
+
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+
 const floor1Material = new THREE.MeshStandardMaterial({
   color: "#111111",
   metalness: 0,
   roughness: 0,
 });
+
 const floor2Material = new THREE.MeshStandardMaterial({
   color: "#222222",
   metalness: 0,
   roughness: 0,
 });
+
 const obstacleMaterial = new THREE.MeshStandardMaterial({
-  color: getRandomHexColor(),
+  color: '#' + Math.floor(Math.random() * 16777215).toString(16),
   metalness: 0,
   roughness: 1,
 });
+
 const wallMaterial = new THREE.MeshStandardMaterial({
   color: "#887777",
   metalness: 0,
