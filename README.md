@@ -1,4 +1,5 @@
 # r3f-runner-game
+![Screenshot 2023-02-10 223547](https://user-images.githubusercontent.com/71751434/218131780-df9013a0-3e55-4e5d-9a93-23776a731267.png)
 
 A fast-paced ball-rolling game built with Next.js, TypeScript and React-Three-Fiber. 
 
